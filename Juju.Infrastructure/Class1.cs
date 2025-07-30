@@ -1,4 +1,4 @@
-﻿namespace Juju.Application
+﻿namespace Juju.Infrastructure
 {
     public class Class1
     {
