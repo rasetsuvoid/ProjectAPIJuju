@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juju.Domain\Juju.Domain.csproj" />
+    <ProjectReference Include="..\Juju.Application\Juju.Application.csproj" />
   </ItemGroup>
 
 </Project>

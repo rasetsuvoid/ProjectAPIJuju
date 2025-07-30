@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Juju.Domain\Juju.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
