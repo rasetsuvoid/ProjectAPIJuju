@@ -6,17 +6,15 @@ namespace DataAccess.Data
 {
     public partial class JujuTestContext : DbContext
     {
-        public JujuTestContext()
-        {
-        }
+
+        public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<Post> Post { get; set; }
+
 
         public JujuTestContext(DbContextOptions<JujuTestContext> options)
             : base(options)
         {
         }
-
-        public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Post> Post { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
