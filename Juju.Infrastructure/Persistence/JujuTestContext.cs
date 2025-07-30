@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Juju.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace DataAccess.Data
@@ -15,7 +16,6 @@ namespace DataAccess.Data
         }
 
         public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Logs> Logs { get; set; }
         public virtual DbSet<Post> Post { get; set; }
 
 
@@ -24,11 +24,6 @@ namespace DataAccess.Data
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.Property(e => e.Name).HasMaxLength(500);
-            });
-
-            modelBuilder.Entity<Logs>(entity =>
-            {
-                entity.Property(e => e.TimeStamp).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Post>(entity =>

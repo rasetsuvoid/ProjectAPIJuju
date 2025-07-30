@@ -16,4 +16,8 @@
     <Folder Include="Repository\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Juju.Domain\Juju.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
