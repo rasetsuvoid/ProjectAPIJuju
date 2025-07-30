@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccess.Data
+namespace Juju.Domain.Data
 {
     public partial class Customer
     {
