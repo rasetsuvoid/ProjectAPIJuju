@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="UnitOfWork\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
 
   <ItemGroup>

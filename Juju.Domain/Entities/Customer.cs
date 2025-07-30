@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Juju.Domain.Entities
 {
-    public class Customer
+    public class Customer : BaseEntity
     {
         public int CustomerId { get; set; }
         public string Name { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Juju.Domain.Entities
 {
-    public class Post
+    public class Post : BaseEntity
     {
         public int PostId { get; set; }
         public string Title { get; set; }
@@ -14,5 +14,6 @@ namespace Juju.Domain.Entities
         public int Type { get; set; }
         public string Category { get; set; }
         public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
     }
 }
