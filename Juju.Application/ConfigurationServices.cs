@@ -29,6 +29,8 @@ namespace Juju.Application
             });
 
             services.AddScoped<IValidator<CustomerRequest>, CustomerValidator>();
+            services.AddScoped<IValidator<CustomerDto>, UpdateCustomerValidator>();
+
         }
     }
 }

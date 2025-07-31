@@ -10,5 +10,7 @@ namespace Juju.Application.Contracts
     public interface ICustomerRepository : IRepository<Customer>
     {
         Task<bool> ExistsByNameAsync(string name);
+        Task<Customer> GetByNameAsync(string name);
+
     }
 }

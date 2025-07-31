@@ -19,10 +19,12 @@ namespace Juju.Application.Services
     {
         
         private readonly IValidator<CustomerRequest> _validator;
+        private readonly IValidator<CustomerDto> _updateValidator;
 
-        public CustomerServices(IValidator<CustomerRequest> validator, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+        public CustomerServices(IValidator<CustomerRequest> validator, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CustomerDto> validatorUpdate) : base(unitOfWork, mapper)
         {
             _validator = validator;
+            _updateValidator = validatorUpdate;
         }
 
         public async Task<HttpResponse<bool>> CreateCustomer(CustomerRequest entity)
@@ -99,10 +101,49 @@ namespace Juju.Application.Services
         }
 
 
-        public Task<HttpResponse<CustomerDto>> UpdateCustomer(CustomerDto entity)
+        public async Task<HttpResponse<CustomerDto>> UpdateCustomer(CustomerDto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                FluentValidation.Results.ValidationResult validationResult = await _updateValidator.ValidateAsync(entity);
+                if (!validationResult.IsValid)
+                {
+                    var errors = string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage));
+                    return HttpResponse<CustomerDto>.Fail(HttpStatusCode.BadRequest, $"Error de validación: {errors}");
+                }
+
+                Customer customer = await GetCustomerWithPostsByIdAsync(entity.CustomerId);
+                if (customer == null)
+                {
+                    return HttpResponse<CustomerDto>.Fail(HttpStatusCode.NotFound, $"No se encontró el cliente con Id {entity.CustomerId}.");
+                }
+
+                try
+                {
+
+                    customer.Name = entity.Name;
+
+                    await _unitOfWork.BeginTransactionAsync();
+                    await _unitOfWork.customerRepository.UpdatePartialAsync(customer);
+                    await _unitOfWork.CommitAsync();
+
+                    CustomerDto dto = _mapper.Map<CustomerDto>(customer);
+
+                    return HttpResponse<CustomerDto>.Success(HttpStatusCode.OK, "Cliente actualizado correctamente.", dto);
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.RollbackAsync();
+                    return HttpResponse<CustomerDto>.Fail(HttpStatusCode.InternalServerError, $"Error durante el guardado: {ex.Message}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return HttpResponse<CustomerDto>.Fail(HttpStatusCode.InternalServerError, $"Error interno: {ex.Message}");
+            }
         }
+
 
         #region Metodos Auxiliares
 

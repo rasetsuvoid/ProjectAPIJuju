@@ -20,5 +20,11 @@ namespace Juju.Infrastructure.Repository
         {
             return await _context.Customer.AnyAsync(c => c.Name == name);
         }
+
+        public async Task<Customer> GetByNameAsync(string name)
+        {
+            return await _context.Customer
+                .FirstOrDefaultAsync(c => c.Name == name && !c.IsDeleted);
+        }
     }
 }
