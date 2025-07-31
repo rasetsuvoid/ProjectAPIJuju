@@ -1,5 +1,5 @@
-﻿using DataAccess.Data;
-using Juju.Application.Contracts;
+﻿using Juju.Application.Contracts;
+using Juju.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
