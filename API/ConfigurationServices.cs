@@ -16,10 +16,10 @@ namespace API
                 options.UseSqlServer(configuration.GetConnectionString("Development")));
 
             // ======== CONFIGURACIÓN DE SWAGGER =========
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "TestAPI", Version = "v1" });
-            });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Info { Title = "TestAPI", Version = "v1" });
+            //});
         }
     }
 }
