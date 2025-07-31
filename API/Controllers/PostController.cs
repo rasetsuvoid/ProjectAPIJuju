@@ -2,6 +2,7 @@
 using Juju.Application.Dtos;
 using Juju.Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace API.Controllers.Post
         }
 
         [HttpPost("CreatePost")]
-        public async Task<IActionResult> Create([FromBody] PostDto entity)
+        public async Task<IActionResult> Create([FromBody] PostRequest entity)
         {
             var result = await _postService.CreatePost(entity);
             return StatusCode((int)result.HttpStatusCode, result);
@@ -42,6 +43,14 @@ namespace API.Controllers.Post
             var result = await _postService.DeletePost(Id);
             return StatusCode((int)result.HttpStatusCode, result);
         }
+
+        [HttpPost("CreateManyPosts")]
+        public async Task<IActionResult> CreateMany([FromBody] List<PostDto> entities)
+        {
+            var result = await _postService.CreateManyPosts(entities);
+            return StatusCode((int)result.HttpStatusCode, result);
+        }
+
 
     }
 }

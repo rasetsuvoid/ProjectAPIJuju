@@ -13,8 +13,6 @@ namespace Juju.Application.Contracts
         Task<IReadOnlyList<T>> GetAllAsync(params Expression<Func<T, bool>>[] includes);
 
         Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes);
-
-        Task<T> GetByIdAsync(long id);
         Task<IReadOnlyList<T>> FindAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);
         Task AddRangeAsync(IReadOnlyList<T> entities);

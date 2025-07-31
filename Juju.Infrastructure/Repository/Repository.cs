@@ -55,11 +55,6 @@ namespace Juju.Infrastructure.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(long id)
-        {
-            return await _context.Set<T>().FindAsync(id)!;
-        }
-
         public async Task<IReadOnlyList<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().Where(predicate).ToListAsync();

@@ -26,10 +26,15 @@ namespace Juju.Application
                 cfg.CreateMap<PostDto, Post>();
                 cfg.CreateMap<Customer, CustomerRequest>();
                 cfg.CreateMap<CustomerRequest, Customer>();
+                cfg.CreateMap<Post, PostRequest>();
+                cfg.CreateMap<PostRequest, Post>();
             });
 
             services.AddScoped<IValidator<CustomerRequest>, CustomerValidator>();
             services.AddScoped<IValidator<CustomerDto>, UpdateCustomerValidator>();
+
+            services.AddScoped<IValidator<PostRequest>, PostRequestValidator>();
+            services.AddScoped<IValidator<PostDto>, UpdatePostValidator>();
 
         }
     }
