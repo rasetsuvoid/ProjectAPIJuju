@@ -31,7 +31,7 @@ namespace API.Controllers.Post
         }
 
         [HttpPut("UpdatePost")]
-        public async Task<IActionResult> Update([FromBody] PostDto entity)
+        public async Task<IActionResult> Update([FromBody] PostUpdate entity)
         {
             var result = await _postService.UpdatePost(entity);
             return StatusCode((int)result.HttpStatusCode, result);

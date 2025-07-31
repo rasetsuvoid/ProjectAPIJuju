@@ -34,7 +34,7 @@ namespace Juju.Application
             services.AddScoped<IValidator<CustomerDto>, UpdateCustomerValidator>();
 
             services.AddScoped<IValidator<PostRequest>, PostRequestValidator>();
-            services.AddScoped<IValidator<PostDto>, UpdatePostValidator>();
+            services.AddScoped<IValidator<PostUpdate>, UpdatePostValidator>();
 
         }
     }

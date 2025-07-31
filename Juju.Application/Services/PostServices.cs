@@ -17,9 +17,9 @@ namespace Juju.Application.Services
     public class PostServices : BaseServices, IPostServices
     {
         private readonly IValidator<PostRequest> _postValidator;
-        private readonly IValidator<PostDto> _updateValidator;
+        private readonly IValidator<PostUpdate> _updateValidator;
 
-        public PostServices(IUnitOfWork unitOfWork, IMapper mapper, IValidator<PostDto> updateValidator, IValidator<PostRequest> postValidator) : base(unitOfWork, mapper)
+        public PostServices(IUnitOfWork unitOfWork, IMapper mapper, IValidator<PostUpdate> updateValidator, IValidator<PostRequest> postValidator) : base(unitOfWork, mapper)
         {
             _updateValidator = updateValidator;
             _postValidator = postValidator;
@@ -103,9 +103,60 @@ namespace Juju.Application.Services
             }
         }
 
-        public Task<HttpResponse<PostDto>> UpdatePost(PostDto entity)
+        public async Task<HttpResponse<PostDto>> UpdatePost(PostUpdate entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                FluentValidation.Results.ValidationResult validationResult = await _updateValidator.ValidateAsync(entity);
+                if (!validationResult.IsValid)
+                {
+                    var errors = string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage));
+                    return HttpResponse<PostDto>.Fail(HttpStatusCode.BadRequest, $"Error de validación: {errors}");
+                }
+
+                Post post = await GetPostByIdAsync(entity.PostId);
+                if (post == null)
+                {
+                    return HttpResponse<PostDto>.Fail(HttpStatusCode.NotFound, $"No se encontró el post con Id {entity.PostId}.");
+                }
+
+                try
+                {
+                    post.Title = entity.Title;
+                    post.Type = entity.Type;
+                    post.Body = entity.Body.Length > 20
+                        ? entity.Body.EndsWith("...")
+                            ? entity.Body
+                            : entity.Body.Substring(0, Math.Min(97, entity.Body.Length)) + "..."
+                        : entity.Body;
+                    post.Category = post.Type switch
+                    {
+                        1 => "Farándula",
+                        2 => "Política",
+                        3 => "Futbol",
+                        _ => post.Category
+                    };
+                    post.CustomerId = entity.CustomerId;
+
+                    await _unitOfWork.BeginTransactionAsync();
+                    await _unitOfWork.postRepository.UpdatePartialAsync(post);
+                    await _unitOfWork.CommitAsync();
+
+                    PostDto dto = _mapper.Map<PostDto>(post);
+
+                    return HttpResponse<PostDto>.Success(HttpStatusCode.OK, "Post actualizado correctamente.", dto);
+                }
+                catch (Exception ex)
+                {
+                    await _unitOfWork.RollbackAsync();
+                    return HttpResponse<PostDto>.Fail(HttpStatusCode.InternalServerError, $"Error durante el guardado: {ex.Message}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return HttpResponse<PostDto>.Fail(HttpStatusCode.InternalServerError, $"Error interno: {ex.Message}");
+            }
         }
 
         #region Generic

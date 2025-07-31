@@ -12,7 +12,7 @@ namespace Juju.Application.Contracts.Services
     {
         Task<HttpResponse<List<PostDto>>> GetAll();
         Task<HttpResponse<bool>> CreatePost(PostRequest entity);
-        Task<HttpResponse<PostDto>> UpdatePost(PostDto entity);
+        Task<HttpResponse<PostDto>> UpdatePost(PostUpdate entity);
         Task<HttpResponse<bool>> DeletePost(int id);
         Task<HttpResponse<bool>> CreateManyPosts(List<PostDto> posts);
     }

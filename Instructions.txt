@@ -10,7 +10,7 @@ con las buenas prácticas de desarrollo del que usted tenga conocimiento ✅
 	- Si el texto del Body es mayor a 20 caracteres se debe cortar el texto a 97 caracteres y finalizar agregar al final "..." ✅
 	- Si EL Type es igual a 1 entonces Category = "Farándula" ✅
 	- Sino Si EL Type es igual a 2 entonces Category = "Política" ✅
-	- Sino Si EL Type es igual a 3 entonces Category = "Futbol" Sino dejar la que el usuario ingrese. 
+	- Sino Si EL Type es igual a 3 entonces Category = "Futbol" Sino dejar la que el usuario ingrese. ✅
 4. Antes de eliminar Customer se debe eliminar todos los Post asociados a este. ✅
 5. Se debe Crear una nueva API que permita crear N cantidad de Post al mismo tiempo.
 6. Mejore el código con las buenas prácticas que conozca. ✅
