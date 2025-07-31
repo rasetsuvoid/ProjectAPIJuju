@@ -13,6 +13,6 @@ namespace Juju.Application.Contracts.Services
         Task<HttpResponse<List<CustomerDto>>> GetAll();
         Task<HttpResponse<bool>> CreateCustomer(CustomerRequest entity);
         Task<HttpResponse<CustomerDto>> UpdateCustomer(CustomerDto entity);
-        Task<HttpResponse<bool>> DeleteCustomer(long id);
+        Task<HttpResponse<bool>> DeleteCustomer(int id);
     }
 }

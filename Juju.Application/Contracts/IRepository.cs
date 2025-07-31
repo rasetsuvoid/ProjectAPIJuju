@@ -19,12 +19,14 @@ namespace Juju.Application.Contracts
         Task AddAsync(T entity);
         Task AddRangeAsync(IReadOnlyList<T> entities);
         void Update(T entity);
-        void Remove(T entity);
+        Task Remove(T entity);
         Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate);
 
         Task<T> GetByIdWithIncludeAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
 
         Task UpdatePartialAsync(T entity, params Expression<Func<T, object>>[] updatedProperties);
+
+        Task RemoveRange(IEnumerable<T> entities);
 
     }
 }

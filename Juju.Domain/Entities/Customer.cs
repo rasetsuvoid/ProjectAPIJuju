@@ -10,6 +10,8 @@ namespace Juju.Domain.Entities
     {
         public int CustomerId { get; set; }
         public string Name { get; set; }
+
+        public virtual ICollection<Post> Posts { get; set; }
     }
 
 }

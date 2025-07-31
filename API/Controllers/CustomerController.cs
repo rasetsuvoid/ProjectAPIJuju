@@ -38,7 +38,7 @@ namespace API.Controllers.Customer
         }
 
         [HttpDelete("DeleteCustomer/{Id}")]
-        public async Task<IActionResult> Delete(long Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             var result = await _customerServices.DeleteCustomer(Id);
             return StatusCode((int)result.HttpStatusCode, result);

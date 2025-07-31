@@ -24,6 +24,8 @@ namespace Juju.Application
                 cfg.CreateMap<CustomerDto, Customer>();
                 cfg.CreateMap<Post, PostDto>();
                 cfg.CreateMap<PostDto, Post>();
+                cfg.CreateMap<Customer, CustomerRequest>();
+                cfg.CreateMap<CustomerRequest, Customer>();
             });
 
             services.AddScoped<IValidator<CustomerRequest>, CustomerValidator>();

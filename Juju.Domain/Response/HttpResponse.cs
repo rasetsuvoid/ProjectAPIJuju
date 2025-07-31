@@ -62,5 +62,11 @@ namespace Juju.Domain.Response
             this.Message = message;
             this.ExtraData = extraData;
         }
+
+        public static HttpResponse<T> Success(HttpStatusCode code, string message, T data) =>
+            new() { Data = data, HttpStatusCode = code, Message = message };
+
+        public static HttpResponse<T> Fail(HttpStatusCode code, string message) =>
+            new() { HttpStatusCode = code, Message = message };
     }
 }

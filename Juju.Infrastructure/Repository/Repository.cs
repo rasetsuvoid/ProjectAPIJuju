@@ -90,9 +90,25 @@ namespace Juju.Infrastructure.Repository
             _context.Set<T>().Update(entity);
         }
 
-        public void Remove(T entity)
+        public async Task Remove(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            entity.IsDeleted = true;
+            entity.Active = false;
+            entity.UpdatedDate = DateTime.UtcNow;
+
+            _context.Set<T>().Update(entity);
+        }
+
+        public async Task RemoveRange(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+            {
+                entity.IsDeleted = true;
+                entity.Active = false;
+                entity.UpdatedDate = DateTime.UtcNow;
+
+                _context.Set<T>().Update(entity);
+            }
         }
 
         public async Task<T> GetByIdAsync(Expression<Func<T, bool>> predicate)
