@@ -38,7 +38,7 @@ namespace API.Controllers.Post
         }
 
         [HttpDelete("DeletePost/{Id}")]
-        public async Task<IActionResult> Delete(long Id)
+        public async Task<IActionResult> Delete(int Id)
         {
             var result = await _postService.DeletePost(Id);
             return StatusCode((int)result.HttpStatusCode, result);

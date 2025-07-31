@@ -58,9 +58,28 @@ namespace Juju.Application.Services
 
         }
 
-        public Task<HttpResponse<bool>> DeletePost(long id)
+        public async Task<HttpResponse<bool>> DeletePost(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Post post = await GetPostByIdAsync(id);
+
+                if (post == null)
+                    return HttpResponse<bool>.Fail(HttpStatusCode.NotFound, $"No se encontró el post con Id {id}.");
+
+                await DeleteAsync(post);
+
+                return HttpResponse<bool>.Success(
+                    HttpStatusCode.OK,
+                    "Post eliminados correctamente.",
+                    true);
+            }
+            catch (Exception ex)
+            {
+                return HttpResponse<bool>.Fail(
+                    HttpStatusCode.InternalServerError,
+                    $"Error interno: {ex.Message}");
+            }
         }
 
         public async Task<HttpResponse<List<PostDto>>> GetAll()
@@ -111,7 +130,29 @@ namespace Juju.Application.Services
             return post;
         }
 
+        public async Task<Post> GetPostByIdAsync(int id)
+        {
+            return await _unitOfWork.postRepository.GetByIdWithIncludeAsync(c => c.PostId == id && c.Active);
+        }
 
+        public async Task DeleteAsync(Post post)
+        {
+            
+
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+
+                await _unitOfWork.postRepository.Remove(post);
+
+                await _unitOfWork.CommitAsync();
+            }
+            catch
+            {
+                await _unitOfWork.RollbackAsync();
+                throw;
+            }
+        }
         #endregion
     }
 }
