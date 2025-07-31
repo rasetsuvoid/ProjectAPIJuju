@@ -9,24 +9,24 @@ using System.Threading.Tasks;
 
 namespace Juju.Application.Services
 {
-    public class CustomerServices : ICustomerServices
+    public class PostServices : IPostServices
     {
-        public Task<HttpResponse<bool>> CreateCustomer(CustomerDto entity)
+        public Task<HttpResponse<bool>> CreatePost(PostDto entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponse<bool>> DeleteCustomer(long id)
+        public Task<HttpResponse<bool>> DeletePost(long id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponse<List<CustomerDto>>> GetAll()
+        public Task<HttpResponse<List<PostDto>>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponse<CustomerDto>> UpdateCustomer(CustomerDto entity)
+        public Task<HttpResponse<PostDto>> UpdatePost(PostDto entity)
         {
             throw new NotImplementedException();
         }
