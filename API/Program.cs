@@ -1,10 +1,12 @@
 ﻿using API;
+using API.Middleware;
 using Juju.Application;
 using Juju.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Text;
 
@@ -19,6 +21,11 @@ builder.Services.AddConfigurationServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddHttpContextAccessor();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
 
 var app = builder.Build();
 
@@ -37,6 +44,7 @@ app.UseCors(options => options
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 app.UseAuthentication();
