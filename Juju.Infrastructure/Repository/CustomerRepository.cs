@@ -1,6 +1,6 @@
-﻿using DataAccess.Data;
-using Juju.Application.Contracts;
+﻿using Juju.Application.Contracts;
 using Juju.Domain.Entities;
+using Juju.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;

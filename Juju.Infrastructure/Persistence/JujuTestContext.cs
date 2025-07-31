@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace DataAccess.Data
+namespace Juju.Infrastructure.Persistence
 {
     public partial class JujuTestContext : DbContext
     {
