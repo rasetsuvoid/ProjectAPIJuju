@@ -15,11 +15,11 @@ namespace API
             services.AddDbContext<JujuTestContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Development")));
 
-            // ======== CONFIGURACIÓN DE SWAGGER =========
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new Info { Title = "TestAPI", Version = "v1" });
-            //});
+             //======== CONFIGURACIÓN DE SWAGGER =========
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "TestAPI", Version = "v1" });
+            });
         }
     }
 }

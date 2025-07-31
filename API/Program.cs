@@ -19,7 +19,6 @@ builder.Services.AddConfigurationServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
