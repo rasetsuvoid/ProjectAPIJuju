@@ -12,5 +12,8 @@ namespace Juju.Application.Contracts
         Task CommitAsync();           // Confirma los cambios realizados en la transacción
         Task CompleteAsync();         // Guarda cambios y confirma la transacción
         Task RollbackAsync();         // Revierte la transacción actual
+
+        ICustomerRepository CustomerRepository { get; }
+        IPostRepository PostRepository { get; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Juju.Application.Contracts;
+﻿using AutoMapper;
+using Juju.Application.Contracts;
 using Juju.Application.Contracts.Services;
 using Juju.Application.Dtos;
 using Juju.Domain.Response;
@@ -12,7 +13,7 @@ namespace Juju.Application.Services
 {
     public class PostServices : BaseServices, IPostServices
     {
-        public PostServices(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public PostServices(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
         }
 

@@ -14,6 +14,9 @@ namespace Juju.Infrastructure.UnitOfWork
         private readonly JujuTestContext _context;
         private IDbContextTransaction _transaction;
 
+        public ICustomerRepository CustomerRepository { get; private set; }
+        public IPostRepository PostRepository { get; private set; }
+
         public async Task BeginTransactionAsync()
         {
             _transaction = await _context.Database.BeginTransactionAsync();

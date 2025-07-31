@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using Juju.Application.Contracts;
 using Juju.Application.Contracts.Services;
 using Juju.Application.Dtos;
@@ -17,7 +18,7 @@ namespace Juju.Application.Services
         
         private readonly IValidator<CustomerRequest> _validator;
 
-        public CustomerServices(IValidator<CustomerRequest> validator, IUnitOfWork unitOfWork) : base(unitOfWork)
+        public CustomerServices(IValidator<CustomerRequest> validator, IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
             _validator = validator;
         }
@@ -36,7 +37,17 @@ namespace Juju.Application.Services
         {
             try
             {
+                
+                IReadOnlyList<Domain.Entities.Customer> customers = await _unitOfWork.CustomerRepository.GetAllAsync();
 
+                List<CustomerDto> customerDtos = _mapper.Map<List<CustomerDto>>(customers);
+
+                return new HttpResponse<List<CustomerDto>>
+                {
+                    Data = customerDtos,
+                    HttpStatusCode = HttpStatusCode.OK,
+                    Message = "Clientes obtenidos correctamente."
+                };
             }
             catch (Exception ex)
             {
@@ -47,6 +58,7 @@ namespace Juju.Application.Services
                 };
             }
         }
+
 
         public Task<HttpResponse<CustomerDto>> UpdateCustomer(CustomerDto entity)
         {

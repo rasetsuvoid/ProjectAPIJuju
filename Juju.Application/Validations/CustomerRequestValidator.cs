@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 
 namespace Juju.Application.Validations
 {
-    public class CustomerValidator : AbstractValidator<CustomerRequest>
+    internal class CustomerValidator : AbstractValidator<CustomerRequest>
     {
         public CustomerValidator(ICustomerRepository customerRepository)
         {
             RuleFor(x => x.Name)
+                .NotNull().WithMessage("El nombre no puede ser nulo.")
                 .NotEmpty().WithMessage("El nombre es obligatorio.")
+                .MinimumLength(3).WithMessage("El nombre debe tener al menos 3 caracteres.")
+                .MaximumLength(50).WithMessage("El nombre no debe exceder los 50 caracteres.")
                 .MustAsync(async (name, cancellation) =>
                 {
                     var exists = await customerRepository.ExistsByNameAsync(name);
