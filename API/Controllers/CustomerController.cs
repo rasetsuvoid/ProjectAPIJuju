@@ -24,7 +24,7 @@ namespace API.Controllers.Customer
 
 
         [HttpPost("CreateCustomer")]
-        public async Task<IActionResult> Create([FromBody] CustomerDto entity)
+        public async Task<IActionResult> Create([FromBody] CustomerRequest entity)
         {
             var result = await _customerServices.CreateCustomer(entity);
             return StatusCode((int)result.HttpStatusCode, result);

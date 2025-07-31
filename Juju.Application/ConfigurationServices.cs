@@ -1,7 +1,9 @@
-﻿using Juju.Application.Contracts.Services;
+﻿using FluentValidation;
+using Juju.Application.Contracts.Services;
 using Juju.Application.Dtos;
 using Juju.Application.Mapping;
 using Juju.Application.Services;
+using Juju.Application.Validations;
 using Juju.Domain.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -23,6 +25,8 @@ namespace Juju.Application
                 cfg.CreateMap<Post, PostDto>();
                 cfg.CreateMap<PostDto, Post>();
             });
+
+            services.AddScoped<IValidator<CustomerRequest>, CustomerValidator>();
         }
     }
 }

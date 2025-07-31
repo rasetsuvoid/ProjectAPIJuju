@@ -1,6 +1,7 @@
 ﻿using Juju.Application.Contracts;
 using Juju.Domain.Entities;
 using Juju.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace Juju.Infrastructure.Repository
     {
         public CustomerRepository(JujuTestContext context) : base(context)
         {
+        }
+
+        public async Task<bool> ExistsByNameAsync(string name)
+        {
+            return await _context.Customer.AnyAsync(c => c.Name == name);
         }
     }
 }

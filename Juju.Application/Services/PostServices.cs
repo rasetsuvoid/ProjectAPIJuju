@@ -1,4 +1,5 @@
-﻿using Juju.Application.Contracts.Services;
+﻿using Juju.Application.Contracts;
+using Juju.Application.Contracts.Services;
 using Juju.Application.Dtos;
 using Juju.Domain.Response;
 using System;
@@ -9,8 +10,12 @@ using System.Threading.Tasks;
 
 namespace Juju.Application.Services
 {
-    public class PostServices : IPostServices
+    public class PostServices : BaseServices, IPostServices
     {
+        public PostServices(IUnitOfWork unitOfWork) : base(unitOfWork)
+        {
+        }
+
         public Task<HttpResponse<bool>> CreatePost(PostDto entity)
         {
             throw new NotImplementedException();

@@ -1,17 +1,28 @@
-﻿using Juju.Application.Contracts.Services;
+﻿using FluentValidation;
+using Juju.Application.Contracts;
+using Juju.Application.Contracts.Services;
 using Juju.Application.Dtos;
 using Juju.Domain.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Juju.Application.Services
 {
-    public class CustomerServices : ICustomerServices
+    public class CustomerServices : BaseServices, ICustomerServices
     {
-        public Task<HttpResponse<bool>> CreateCustomer(CustomerDto entity)
+        
+        private readonly IValidator<CustomerRequest> _validator;
+
+        public CustomerServices(IValidator<CustomerRequest> validator, IUnitOfWork unitOfWork) : base(unitOfWork)
+        {
+            _validator = validator;
+        }
+
+        public Task<HttpResponse<bool>> CreateCustomer(CustomerRequest entity)
         {
             throw new NotImplementedException();
         }
@@ -21,9 +32,20 @@ namespace Juju.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<HttpResponse<List<CustomerDto>>> GetAll()
+        public async Task<HttpResponse<List<CustomerDto>>> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                return new HttpResponse<List<CustomerDto>>
+                {
+                    Message = $"Error interno: {ex.Message}",
+                    HttpStatusCode = HttpStatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<HttpResponse<CustomerDto>> UpdateCustomer(CustomerDto entity)

@@ -9,6 +9,6 @@ namespace Juju.Application.Contracts
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-
+        Task<bool> ExistsByNameAsync(string name);
     }
 }
