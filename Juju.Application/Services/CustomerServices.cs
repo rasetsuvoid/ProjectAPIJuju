@@ -81,6 +81,7 @@ namespace Juju.Application.Services
 
         public async Task<HttpResponse<List<CustomerDto>>> GetAll()
         {
+
             try
             {
                 IReadOnlyList<Customer> customers = await _unitOfWork.customerRepository.GetAllAsync(x => x.Active);
