@@ -59,7 +59,6 @@ namespace Juju.Application.Services
             }
         }
 
-
         public Task<HttpResponse<CustomerDto>> UpdateCustomer(CustomerDto entity)
         {
             throw new NotImplementedException();
