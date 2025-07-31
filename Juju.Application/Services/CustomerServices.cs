@@ -38,7 +38,7 @@ namespace Juju.Application.Services
             try
             {
                 
-                IReadOnlyList<Domain.Entities.Customer> customers = await _unitOfWork.CustomerRepository.GetAllAsync();
+                IReadOnlyList<Domain.Entities.Customer> customers = await _unitOfWork.customerRepository.GetAllAsync();
 
                 List<CustomerDto> customerDtos = _mapper.Map<List<CustomerDto>>(customers);
 

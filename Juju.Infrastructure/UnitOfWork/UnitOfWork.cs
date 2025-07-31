@@ -1,5 +1,6 @@
 ﻿using Juju.Application.Contracts;
 using Juju.Infrastructure.Persistence;
+using Juju.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,15 @@ namespace Juju.Infrastructure.UnitOfWork
         private readonly JujuTestContext _context;
         private IDbContextTransaction _transaction;
 
-        public ICustomerRepository CustomerRepository { get; private set; }
-        public IPostRepository PostRepository { get; private set; }
+        public ICustomerRepository customerRepository { get; private set; }
+        public IPostRepository postRepository { get; private set; }
+
+        public UnitOfWork(JujuTestContext jujuTestContext)
+        {
+            _context = jujuTestContext;
+            customerRepository = new CustomerRepository(_context);
+            postRepository = new PostRepository(_context);
+        }
 
         public async Task BeginTransactionAsync()
         {
