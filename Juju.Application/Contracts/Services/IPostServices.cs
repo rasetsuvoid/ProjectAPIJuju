@@ -14,6 +14,6 @@ namespace Juju.Application.Contracts.Services
         Task<HttpResponse<bool>> CreatePost(PostRequest entity);
         Task<HttpResponse<PostDto>> UpdatePost(PostUpdate entity);
         Task<HttpResponse<bool>> DeletePost(int id);
-        Task<HttpResponse<bool>> CreateManyPosts(List<PostDto> posts);
+        Task<HttpResponse<bool>> CreateManyPosts(List<PostRequest> posts);
     }
 }

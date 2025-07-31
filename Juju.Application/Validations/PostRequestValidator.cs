@@ -32,6 +32,10 @@ namespace Juju.Application.Validations
                     var exists = await customerRepository.GetByIdAsync(x => x.CustomerId == id);
                     return !object.Equals(exists, null);
                 }).WithMessage("El cliente especificado no existe.");
+
+            RuleFor(x => x.Category)
+                .NotEmpty().WithMessage("La categoría es obligatoria si el tipo no es 1, 2 o 3.")
+                .When(x => x.Type != 1 && x.Type != 2 && x.Type != 3);
         }
     }
 }

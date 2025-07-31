@@ -45,7 +45,7 @@ namespace API.Controllers.Post
         }
 
         [HttpPost("CreateManyPosts")]
-        public async Task<IActionResult> CreateMany([FromBody] List<PostDto> entities)
+        public async Task<IActionResult> CreateMany([FromBody] List<PostRequest> entities)
         {
             var result = await _postService.CreateManyPosts(entities);
             return StatusCode((int)result.HttpStatusCode, result);

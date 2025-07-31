@@ -25,9 +25,38 @@ namespace Juju.Application.Services
             _postValidator = postValidator;
         }
 
-        public Task<HttpResponse<bool>> CreateManyPosts(List<PostDto> posts)
+        public async Task<HttpResponse<bool>> CreateManyPosts(List<PostRequest> posts)
         {
-            throw new NotImplementedException();
+
+            List<Post> postList = [];
+
+            foreach (PostRequest item in posts)
+            {
+                var validationResult = await _postValidator.ValidateAsync(item);
+
+                if (!validationResult.IsValid)
+                {
+                    var errors = string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage));
+                    return HttpResponse<bool>.Fail(HttpStatusCode.BadRequest, $"Error de validación: {errors}");
+                }
+
+                Post post = Create(item);
+                postList.Add(post);
+            }
+
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+                await _unitOfWork.postRepository.AddRangeAsync(postList);
+                await _unitOfWork.CommitAsync();
+
+                return HttpResponse<bool>.Success(HttpStatusCode.Created, "Post creado correctamente.", true);
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackAsync();
+                return HttpResponse<bool>.Fail(HttpStatusCode.InternalServerError, $"Error durante el guardado: {ex.Message}");
+            }
         }
 
         public async Task<HttpResponse<bool>> CreatePost(PostRequest entity)
