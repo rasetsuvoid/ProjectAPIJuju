@@ -1,50 +1,47 @@
-﻿using Business;
+﻿using Juju.Application.Contracts.Services;
+using Juju.Application.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using CustomerEntity = DataAccess.Data.Customer;
+using System.Threading.Tasks;
 
 namespace API.Controllers.Customer
 {
-    [Route("[controller]")]
-    public class CustomerController : ControllerBase
+    public class CustomerController : BaseController
     {
-        private BaseService<CustomerEntity> CustomerService;
-        public CustomerController(BaseService<CustomerEntity> customerService)
+        private readonly ICustomerServices _customerServices;
+        public CustomerController(ICustomerServices customerService)
         {
-            CustomerService = customerService;
+            _customerServices = customerService;
+        }
+
+        [HttpGet("GetCustomers")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _customerServices.GetAll();
+            return StatusCode((int)result.HttpStatusCode, result);
         }
 
 
-        [HttpGet()]
-        public IQueryable<CustomerEntity> GetAll()
+        [HttpPost("CreateCustomer")]
+        public async Task<IActionResult> Create([FromBody] CustomerRequest entity)
         {
-            return CustomerService.GetAll();
+            var result = await _customerServices.CreateCustomer(entity);
+            return StatusCode((int)result.HttpStatusCode, result);
         }
 
-
-        [HttpPost()]
-        public CustomerEntity Create([FromBodyAttribute] CustomerEntity entity)
+        [HttpPut("UpdateCustomer")]
+        public async Task<IActionResult> Update(CustomerDto entity)
         {
-            return CreateCustomer(entity);
+            var result = await _customerServices.UpdateCustomer(entity);
+            return StatusCode((int)result.HttpStatusCode, result);
         }
 
-        private CustomerEntity CreateCustomer(CustomerEntity entity)
+        [HttpDelete("DeleteCustomer/{Id}")]
+        public async Task<IActionResult> Delete(int Id)
         {
-            throw new Exception("");
-            return CustomerService.Create(entity);
+            var result = await _customerServices.DeleteCustomer(Id);
+            return StatusCode((int)result.HttpStatusCode, result);
         }
-
-        [HttpPut()]
-        public CustomerEntity Update(CustomerEntity entity)
-        {
-            return CustomerService.Update(entity.CustomerId, entity, out bool changed);
-        }
-
-        [HttpDelete()]
-        public CustomerEntity Delete([FromBodyAttribute] CustomerEntity entity)
-        {
-            return CustomerService.Delete(entity);
-        }
-    }
+    }   
 }

@@ -1,41 +1,54 @@
-﻿using Business;
+﻿using Juju.Application.Contracts.Services;
+using Juju.Application.Dtos;
+using Juju.Application.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using PostEntity = DataAccess.Data.Post;
+using System.Threading.Tasks;
 
 namespace API.Controllers.Post
 {
-    [Route("[controller]")]
-    public class PostController : ControllerBase
+    public class PostController : BaseController
     {
-        private BaseService<PostEntity> PostService;
-        public PostController(BaseService<PostEntity> postService)
+        private readonly IPostServices _postService;
+        public PostController(IPostServices postService)
         {
-            PostService = postService;
+            _postService = postService;
         }
 
-        [HttpGet()]
-        public IQueryable<PostEntity> GetAll()
+        [HttpGet("GetPosts")]
+        public async Task<IActionResult> GetAll()
         {
-            return PostService.GetAll();
+            var result = await _postService.GetAll();
+            return StatusCode((int)result.HttpStatusCode, result);
         }
 
-        [HttpPost()]
-        public PostEntity Create([FromBodyAttribute]  PostEntity entity)
+        [HttpPost("CreatePost")]
+        public async Task<IActionResult> Create([FromBody] PostRequest entity)
         {
-            return PostService.Create(entity);
+            var result = await _postService.CreatePost(entity);
+            return StatusCode((int)result.HttpStatusCode, result);
         }
 
-        [HttpPut()]
-        public PostEntity Update([FromBodyAttribute] PostEntity entity)
+        [HttpPut("UpdatePost")]
+        public async Task<IActionResult> Update([FromBody] PostUpdate entity)
         {
-            return PostService.Create(entity);
+            var result = await _postService.UpdatePost(entity);
+            return StatusCode((int)result.HttpStatusCode, result);
         }
 
-        [HttpDelete()]
-        public PostEntity Delete([FromBodyAttribute] PostEntity entity)
+        [HttpDelete("DeletePost/{Id}")]
+        public async Task<IActionResult> Delete(int Id)
         {
-            return PostService.Create(entity);
+            var result = await _postService.DeletePost(Id);
+            return StatusCode((int)result.HttpStatusCode, result);
+        }
+
+        [HttpPost("CreateManyPosts")]
+        public async Task<IActionResult> CreateMany([FromBody] List<PostRequest> entities)
+        {
+            var result = await _postService.CreateManyPosts(entities);
+            return StatusCode((int)result.HttpStatusCode, result);
         }
 
 

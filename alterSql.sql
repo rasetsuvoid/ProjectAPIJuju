@@ -1,0 +1,14 @@
+ALTER TABLE [dbo].[Customer]
+ADD 
+    Active BIT NOT NULL CONSTRAINT DF_Customer_Active DEFAULT 1,
+    IsDeleted BIT NOT NULL CONSTRAINT DF_Customer_IsDeleted DEFAULT 0,
+    CreatedDate DATETIME2 NOT NULL CONSTRAINT DF_Customer_CreatedDate DEFAULT (GETUTCDATE()),
+    UpdatedDate DATETIME2 NULL;
+
+
+ALTER TABLE [dbo].[Post]
+ADD 
+    Active BIT NOT NULL CONSTRAINT DF_Post_Active DEFAULT 1,
+    IsDeleted BIT NOT NULL CONSTRAINT DF_Post_IsDeleted DEFAULT 0,
+    CreatedDate DATETIME2 NOT NULL CONSTRAINT DF_Post_CreatedDate DEFAULT (GETUTCDATE()),
+    UpdatedDate DATETIME2 NULL;
